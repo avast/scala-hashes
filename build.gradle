@@ -1,0 +1,70 @@
+buildscript {
+    repositories {
+        jcenter()
+        dependencies {
+            classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
+            classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
+        }
+    }
+}
+
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'scala'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.ben-manes.versions'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+ext {
+    scalaVersion = '2.12'
+    scalaLibraryVersion = '2.12.6'
+}
+
+group = 'com.avast.hashes'
+archivesBaseName = "scala-hashes_$scalaVersion"
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile "org.scala-lang:scala-library:${scalaLibraryVersion}"
+    compileOnly "org.json4s:json4s-core_${scalaVersion}:3.5.3"
+    compileOnly "io.circe:circe-core_${scalaVersion}:0.9.3"
+
+    testCompile "org.scalatest:scalatest_${scalaVersion}:3.0.5"
+    testCompile "junit:junit:4.12"
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    configurations = ['archives']
+    publish = true
+    pkg {
+        repo = 'maven'
+        name = project.archivesBaseName
+        desc = 'Case-classes representing MD5, SHA1 and SHA256.'
+        userOrg = 'avast'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/avast/scala-hashes.git'
+        websiteUrl = 'https://github.com/avast/scala-hashes'
+        issueTrackerUrl = 'https://github.com/avast/scala-hashes/issues'
+        labels = ['scala', 'hashes']
+        version {
+            name = project.version
+            vcsTag = project.version
+        }
+    }
+}
