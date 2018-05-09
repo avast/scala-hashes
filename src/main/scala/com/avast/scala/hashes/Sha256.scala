@@ -3,7 +3,7 @@ package com.avast.scala.hashes
 import java.util
 
 case class Sha256(bytes: Array[Byte]) {
-  require(bytes.length == 32, s"Invalid Sha256: $bytes")
+  require(bytes.length == 32, s"Invalid Sha256: 32 bytes expected but ${bytes.length} provided")
 
   override def toString: String = bytes2hex(bytes)
   override def hashCode(): Int = util.Arrays.hashCode(bytes)
