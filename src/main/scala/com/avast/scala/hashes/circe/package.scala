@@ -3,7 +3,7 @@ package com.avast.scala.hashes
 import io.circe._
 
 import scala.reflect.ClassTag
-import scala.util.control.NonFatal
+import scala.util.Try
 
 package object circe {
   implicit val Sha256Decoder: Decoder[Sha256] = prepareDecoder(Sha256(_))
@@ -16,16 +16,10 @@ package object circe {
   private def prepareDecoder[A: ClassTag](parse: String => A): Decoder[A] =
     (c: HCursor) => {
       c.value.as[String].flatMap { s =>
-        try {
-          Right(parse(s))
-        } catch {
-          case NonFatal(_) =>
-            Left {
-              DecodingFailure(
-                implicitly[ClassTag[A]].runtimeClass.getSimpleName,
-                c.history)
-            }
-        }
+        Try(parse(s)).toEither.left
+          .map { _ =>
+            DecodingFailure(implicitly[ClassTag[A]].runtimeClass.getSimpleName, c.history)
+          }
       }
     }
 }
