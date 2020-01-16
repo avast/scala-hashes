@@ -1,9 +1,7 @@
 package com.avast.scala.hashes
 
+import cats.syntax.all._
 import io.circe._
-
-import scala.reflect.ClassTag
-import scala.util.Try
 
 package object circe {
   implicit val Sha256Decoder: Decoder[Sha256] = prepareDecoder(Sha256(_))
@@ -13,12 +11,13 @@ package object circe {
   implicit val Sha1Decoder: Decoder[Sha1] = prepareDecoder(Sha1(_))
   implicit val Sha1Encoder: Encoder[Sha1] = Encoder.encodeString.contramap((s: Sha1) => s.toString)
 
-  private def prepareDecoder[A: ClassTag](parse: String => A): Decoder[A] =
+  private def prepareDecoder[A](parse: String => A): Decoder[A] =
     (c: HCursor) => {
       c.value.as[String].flatMap { s =>
-        Try(parse(s)).toEither.left
-          .map { _ =>
-            DecodingFailure(implicitly[ClassTag[A]].runtimeClass.getSimpleName, c.history)
+        Either
+          .catchNonFatal(parse(s))
+          .leftMap { e =>
+            DecodingFailure(e.toString, c.history)
           }
       }
     }
