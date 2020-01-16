@@ -1,6 +1,6 @@
 package com.avast.scala.hashes.circe
 
-import com.avast.scala.hashes.{Sha1, Sha256}
+import com.avast.scala.hashes.Sha1
 import io.circe.{DecodingFailure, Json}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
