@@ -20,7 +20,7 @@ targetCompatibility = '1.8'
 ext {
     scalaVersion = '2.12'
     scalaLibraryVersion = '2.12.10'
-    circeVersion = '0.11.2'
+    circeVersion = '0.13.0'
 }
 
 group = 'com.avast.hashes'
