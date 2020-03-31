@@ -3,7 +3,7 @@ buildscript {
         jcenter()
         dependencies {
             classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-            classpath 'com.github.ben-manes:gradle-versions-plugin:0.27.0'
+            classpath 'com.github.ben-manes:gradle-versions-plugin:0.28.0'
         }
     }
 }
@@ -14,12 +14,11 @@ apply plugin: 'scala'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.ben-manes.versions'
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 ext {
     scalaVersion = '2.12'
-    scalaLibraryVersion = '2.12.10'
+    scalaLibraryVersion = '2.12.11'
     circeVersion = '0.13.0'
 }
 
@@ -28,6 +27,7 @@ archivesBaseName = "scala-hashes_$scalaVersion"
 
 repositories {
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -37,7 +37,7 @@ dependencies {
 
     testCompile "org.scalatest:scalatest_${scalaVersion}:3.0.8"
     testCompile "io.circe:circe-core_${scalaVersion}:${circeVersion}"
-    testCompile "junit:junit:4.12"
+    testCompile "junit:junit:4.13"
 }
 
 task sourcesJar(type: Jar) {
