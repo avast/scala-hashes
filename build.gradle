@@ -17,8 +17,6 @@ apply plugin: 'com.github.ben-manes.versions'
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 ext {
-    scalaVersion = '2.12'
-    scalaLibraryVersion = '2.12.11'
     circeVersion = '0.13.0'
 }
 
