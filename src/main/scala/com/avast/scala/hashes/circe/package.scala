@@ -21,4 +21,13 @@ package object circe {
           }
       }
     }
+
+  object hex {
+    implicit val Sha256Decoder: Decoder[Sha256] = prepareDecoder(Sha256(_))
+    implicit val Sha256Encoder: Encoder[Sha256] = Encoder.encodeString.contramap((s: Sha256) => s.toHexString)
+    implicit val MD5Decoder: Decoder[MD5] = prepareDecoder(MD5(_))
+    implicit val MD5Encoder: Encoder[MD5] = Encoder.encodeString.contramap((h: MD5) => h.toHexString)
+    implicit val Sha1Decoder: Decoder[Sha1] = prepareDecoder(Sha1(_))
+    implicit val Sha1Encoder: Encoder[Sha1] = Encoder.encodeString.contramap((s: Sha1) => s.toHexString)
+  }
 }

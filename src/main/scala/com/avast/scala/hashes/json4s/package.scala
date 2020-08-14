@@ -18,4 +18,21 @@ package object json4s {
     { case JString(value) => Sha1(value) },
     { case sha1: Sha1 => JString(sha1.toBase64String) }
   ))
+
+  object hex {
+    implicit object Sha256Serializer extends CustomSerializer[Sha256](format => (
+      { case JString(value) => Sha256(value) },
+      { case fileId: Sha256 => JString(fileId.toHexString) }
+    ))
+
+    implicit object MD5Serializer extends CustomSerializer[MD5](format => (
+      { case JString(value) => MD5(value) },
+      { case md5: MD5 => JString(md5.toHexString) }
+    ))
+
+    implicit object Sha1Serializer extends CustomSerializer[Sha1](format => (
+      { case JString(value) => Sha1(value) },
+      { case sha1: Sha1 => JString(sha1.toHexString) }
+    ))
+  }
 }
