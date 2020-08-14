@@ -30,7 +30,7 @@ repositories {
 
 dependencies {
     compile "org.scala-lang:scala-library:${scalaLibraryVersion}"
-    compileOnly "org.json4s:json4s-core_${scalaVersion}:3.6.7"
+    compileOnly "org.json4s:json4s-core_${scalaVersion}:3.6.9"
     compileOnly "io.circe:circe-core_${scalaVersion}:${circeVersion}"
 
     testCompile "org.scalatest:scalatest_${scalaVersion}:3.0.8"
