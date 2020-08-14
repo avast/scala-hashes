@@ -6,6 +6,7 @@ case class MD5(bytes: Array[Byte]) {
   require(bytes.length == 16, s"Invalid MD5: ${MD5.bytesLength} bytes expected but ${bytes.length} provided")
 
   final def toBase64String: String = bytes2base64(bytes)
+  final def toHexString: String = bytes2hex(bytes)
 
   override def toString: String = bytes2hex(bytes)
   override def hashCode(): Int = util.Arrays.hashCode(bytes)
