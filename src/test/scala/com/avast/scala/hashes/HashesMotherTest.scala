@@ -1,11 +1,12 @@
 package com.avast.scala.hashes
 
 import org.junit.runner.RunWith
-import org.scalatest.{FlatSpec, Matchers}
-import org.scalatest.junit.JUnitRunner
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
+import org.scalatestplus.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class HashesMotherTest extends FlatSpec with Matchers {
+class HashesMotherTest extends AnyFlatSpec with Matchers {
   it should "generate random sha256" in {
     val first = HashesMother.randomSha256()
     val second = HashesMother.randomSha256()

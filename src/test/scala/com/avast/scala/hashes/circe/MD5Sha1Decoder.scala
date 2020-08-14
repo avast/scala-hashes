@@ -3,12 +3,13 @@ package com.avast.scala.hashes.circe
 import com.avast.scala.hashes.MD5
 import io.circe.{DecodingFailure, Json}
 import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
+import org.scalatestplus.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class MD5Sha1Decoder extends FlatSpec with Matchers {
-  "it" should "deserialize valid MD5" in {
+class MD5Sha1Decoder extends AnyFlatSpec with Matchers {
+  it should "deserialize valid MD5" in {
     val value = MD5("6a18b3c45107538de9d430f83a6af988")
 
     val result = MD5Decoder.decodeJson(Json.fromString(value.toString))
