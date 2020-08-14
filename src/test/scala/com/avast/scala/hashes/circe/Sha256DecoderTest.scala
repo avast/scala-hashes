@@ -11,15 +11,12 @@ import org.scalatestplus.junit.JUnitRunner
 class Sha256DecoderTest extends AnyFlatSpec with Matchers {
   it should "deserialize valid SHA256" in {
     val value = Sha256("6a18b3c45107538de9d430f83a6af988edbddeb4e5a6bdb16f223a2fa37ee446")
-
-    val result = Sha256Decoder.decodeJson(Json.fromString(value.toString))
-
-    assertResult(Right(value))(result)
+    Sha256Decoder.decodeJson(Json.fromString(value.toHexString)) shouldBe Right(value)
+    Sha256Decoder.decodeJson(Json.fromString(value.toBase64String)) shouldBe Right(value)
   }
 
-  "deserialization" should "correctly fail in case of invalid Sha256" in {
+  "deserialization" should "fail correctly in case of invalid Sha256" in {
     val result = Sha256Decoder.decodeJson(Json.fromString("InvalidValue"))
-
     result match {
       case Left(_: DecodingFailure) => succeed
       case _ => fail()
