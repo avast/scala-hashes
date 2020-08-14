@@ -3,7 +3,9 @@ package com.avast.scala.hashes
 import java.util
 
 case class Sha1(bytes: Array[Byte]) {
-  require(bytes.length == 20, s"Invalid Sha1: 20 bytes expected but ${bytes.length} provided")
+  require(bytes.length == 20, s"Invalid Sha1: ${Sha1.bytesLength} bytes expected but ${bytes.length} provided")
+
+  final def toBase64String: String = bytes2base64(bytes)
 
   override def toString: String = bytes2hex(bytes)
   override def hashCode(): Int = util.Arrays.hashCode(bytes)
@@ -14,5 +16,6 @@ case class Sha1(bytes: Array[Byte]) {
 }
 
 object Sha1 {
-  def apply(hex: String): Sha1 = Sha1(hex2bytes(hex))
+  private val bytesLength = 20
+  def apply(hexOrBase64: String): Sha1 = Sha1(if (hexOrBase64.length == 2 * bytesLength) hex2bytes(hexOrBase64) else base642bytes(hexOrBase64))
 }

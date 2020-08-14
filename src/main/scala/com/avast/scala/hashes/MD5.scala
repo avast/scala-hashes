@@ -3,7 +3,9 @@ package com.avast.scala.hashes
 import java.util
 
 case class MD5(bytes: Array[Byte]) {
-  require(bytes.length == 16, s"Invalid MD5: 16 bytes expected but ${bytes.length} provided")
+  require(bytes.length == 16, s"Invalid MD5: ${MD5.bytesLength} bytes expected but ${bytes.length} provided")
+
+  final def toBase64String: String = bytes2base64(bytes)
 
   override def toString: String = bytes2hex(bytes)
   override def hashCode(): Int = util.Arrays.hashCode(bytes)
@@ -14,5 +16,6 @@ case class MD5(bytes: Array[Byte]) {
 }
 
 object MD5 {
-  def apply(hex: String): MD5 = MD5(hex2bytes(hex))
+  private val bytesLength = 16
+  def apply(hexOrBase64: String): MD5 = MD5(if (hexOrBase64.length == 2 * bytesLength) hex2bytes(hexOrBase64) else base642bytes(hexOrBase64))
 }
