@@ -18,4 +18,8 @@ class MD5Test extends AnyFlatSpec with Matchers {
   it should "convert MD5 to lower-case" in {
     MD5("6A18B3C45107538DE9D430F83A6AF988").toString() shouldBe "6a18b3c45107538de9d430f83a6af988"
   }
+
+  it should "convert hex value with additional characters" in {
+    MD5("\"6A18B3C45107538DE9D430F83A6AF988 \"").toString() shouldBe "6a18b3c45107538de9d430f83a6af988"
+  }
 }

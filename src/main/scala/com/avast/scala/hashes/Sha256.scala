@@ -18,5 +18,5 @@ case class Sha256(bytes: Array[Byte]) {
 
 object Sha256 {
   private val bytesLength = 32
-  def apply(hexOrBase64: String): Sha256 = Sha256(if (hexOrBase64.length == 2 * bytesLength) hex2bytes(hexOrBase64) else base642bytes(hexOrBase64))
+  def apply(hexOrBase64: String): Sha256 = Sha256(tryHex2bytes(hexOrBase64, bytesLength).getOrElse(base642bytes(hexOrBase64)))
 }
