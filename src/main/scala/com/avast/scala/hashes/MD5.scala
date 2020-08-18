@@ -18,5 +18,5 @@ case class MD5(bytes: Array[Byte]) {
 
 object MD5 {
   private val bytesLength = 16
-  def apply(hexOrBase64: String): MD5 = MD5(if (hexOrBase64.length == 2 * bytesLength) hex2bytes(hexOrBase64) else base642bytes(hexOrBase64))
+  def apply(hexOrBase64: String): MD5 = MD5(tryHex2bytes(hexOrBase64, bytesLength).getOrElse(base642bytes(hexOrBase64)))
 }
