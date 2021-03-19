@@ -80,7 +80,7 @@ publishing {
 }
 
 signing {
-    useInMemoryPgpKeys(System.getenv('SIGNING_KEY'), System.getenv('SIGNING_PASSWORD'))
+    useInMemoryPgpKeys(new String(Base64.decoder.decode(System.getenv('SIGNING_KEY'))), System.getenv('SIGNING_PASSWORD'))
     sign publishing.publications
 }
 
