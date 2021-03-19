@@ -1,0 +1,31 @@
+name: Release
+on:
+  release:
+    types: [published]
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+       include:
+         - scalaVersion: 2.13
+           scalaLibraryVersion: 2.13.5
+         - scalaVersion: 2.12
+           scalaLibraryVersion: 2.12.13
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Check with Gradle
+        run: ./gradlew check -PscalaVersion=${{ matrix.scalaVersion }} -PscalaLibraryVersion=${{ matrix.scalaLibraryVersion }} -Pversion=${{ github.event.release.tag_name }}
+      - name: Publish with Gradle to Sonatype
+        run: ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository -Pversion=${{ github.event.release.tag_name }} -PscalaVersion=${{ matrix.scalaVersion }} -PscalaLibraryVersion=${{ matrix.scalaLibraryVersion }}
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
+          ORG_GRADLE_PROJECT_sonatypePassword : ${{ secrets.SONATYPE_PASSWORD }}

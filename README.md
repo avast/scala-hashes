@@ -1,7 +1,7 @@
-# Scala Hashes [![Build Status](https://travis-ci.org/avast/scala-hashes.svg)](https://travis-ci.org/avast/scala-hashes) [![Download](https://api.bintray.com/packages/avast/maven/scala-hashes_2.12/images/download.svg) ](https://bintray.com/avast/maven/scala-hashes_2.12/_latestVersion)
+# Scala Hashes [![Build](https://github.com/avast/scala-hashes/workflows/Build/badge.svg)](https://github.com/avast/scala-hashes/actions?query=workflow:Build) [![Version](https://badgen.net/maven/v/maven-central/com.avast.bytes/scala-hashes_2.13)](https://repo1.maven.org/maven2/com/avast/scala-hashes_2.13/)
 
 Case-classes representing MD5, SHA1 and SHA256. It also contains converters/encoders for [circe](https://github.com/travisbrown/circe) and [json4s](https://github.com/json4s/json4s) JSON libraries. Dependencies on this libraries are just optional (you must add the dependency in your project).
 
 ```gradle
-compile "com.avast.hashes:scala-hashes_2.12:$versionHere"
+compile "com.avast.hashes:scala-hashes_2.13:$versionHere"
 ```
