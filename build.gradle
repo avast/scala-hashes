@@ -2,16 +2,20 @@ buildscript {
     repositories {
         jcenter()
         dependencies {
-            classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
             classpath 'com.github.ben-manes:gradle-versions-plugin:0.36.0'
         }
     }
 }
 
+plugins {
+    id 'signing'
+    id('io.github.gradle-nexus.publish-plugin') version '1.0.0'
+}
+
 apply plugin: 'idea'
-apply plugin: 'maven'
 apply plugin: 'scala'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
 apply plugin: 'com.github.ben-manes.versions'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -24,7 +28,6 @@ group = 'com.avast.hashes'
 archivesBaseName = "scala-hashes_$scalaVersion"
 
 repositories {
-    jcenter()
     mavenCentral()
 }
 
@@ -39,33 +42,50 @@ dependencies {
     testCompile "junit:junit:4.13.2"
 }
 
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-    archiveClassifier = 'sources'
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
-artifacts {
-    archives sourcesJar
-}
-
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    configurations = ['archives']
-    publish = true
-    pkg {
-        repo = 'maven'
-        name = project.archivesBaseName
-        desc = 'Case-classes representing MD5, SHA1 and SHA256.'
-        userOrg = 'avast'
-        licenses = ['MIT']
-        vcsUrl = 'https://github.com/avast/scala-hashes.git'
-        websiteUrl = 'https://github.com/avast/scala-hashes'
-        issueTrackerUrl = 'https://github.com/avast/scala-hashes/issues'
-        labels = ['scala', 'hashes']
-        version {
-            name = project.version
-            vcsTag = project.version
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from(components.java)
+            artifactId = archivesBaseName
+            pom {
+                name = 'Scala Hashes'
+                description = 'Case-classes representing MD5, SHA1 and SHA256.'
+                url = 'https://github.com/avast/scala-hashes'
+                licenses {
+                    license {
+                        name = 'The MIT License'
+                        url = 'http://www.opensource.org/licenses/mit-license.php'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'augi'
+                        name = 'Michal Augustýn'
+                        email = 'augustyn.michal@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/avast/scala-hashes.git'
+                    developerConnection = 'scm:git:ssh://github.com/avast/scala-hashes.git'
+                    url = 'https://github.com/avast/scala-hashes'
+                }
+            }
         }
+    }
+}
+
+signing {
+    useInMemoryPgpKeys(System.getenv('SIGNING_KEY'), System.getenv('SIGNING_PASSWORD'))
+    sign publishing.publications
+}
+
+nexusPublishing {
+    repositories {
+        sonatype()
     }
 }
