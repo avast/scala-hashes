@@ -80,8 +80,11 @@ publishing {
 }
 
 signing {
-    useInMemoryPgpKeys(new String(Base64.decoder.decode(System.getenv('SIGNING_KEY'))), System.getenv('SIGNING_PASSWORD'))
-    sign publishing.publications
+    String base64Key = System.getenv('SIGNING_KEY')
+    if (base64Key) {
+        useInMemoryPgpKeys(new String(Base64.decoder.decode(base64Key)), System.getenv('SIGNING_PASSWORD'))
+        sign publishing.publications
+    }
 }
 
 nexusPublishing {
