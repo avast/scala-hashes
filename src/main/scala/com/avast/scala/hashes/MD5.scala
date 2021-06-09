@@ -1,5 +1,7 @@
 package com.avast.scala.hashes
 
+import io.circe.{Decoder, Encoder}
+
 import java.util
 
 case class MD5(bytes: Array[Byte]) {
@@ -19,4 +21,7 @@ case class MD5(bytes: Array[Byte]) {
 object MD5 {
   private val bytesLength = 16
   def apply(hexOrBase64: String): MD5 = MD5(tryHex2bytes(hexOrBase64, bytesLength).getOrElse(base642bytes(hexOrBase64)))
+
+  implicit lazy val MD5Decoder: Decoder[MD5] = circe.prepareDecoder(MD5(_))
+  implicit lazy val MD5Encoder: Encoder[MD5] = Encoder.encodeString.contramap((h: MD5) => h.toString)
 }
