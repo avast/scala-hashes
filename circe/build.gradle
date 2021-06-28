@@ -1,0 +1,6 @@
+archivesBaseName = "scala-hashes-circe_$scalaVersion"
+
+dependencies {
+    api project(':core')
+    api "io.circe:circe-core_${scalaVersion}:${circeVersion}"
+}
