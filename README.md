@@ -6,7 +6,8 @@ Case-classes representing MD5, SHA1, and SHA256 hashes.
 compile "com.avast.hashes:scala-hashes_2.13:$versionHere"
 ```
 
-There are also decoders and encoders for [circe](https://github.com/travisbrown/circe) JSON library:
+There is also a support for [circe](https://github.com/travisbrown/circe) JSON library:
 ```gradle
 compile "com.avast.hashes:scala-hashes-circe_2.13:$versionHere"
 ```
+Then you can import encoders and decoders using `import com.avast.scala.hashes.circe._`
