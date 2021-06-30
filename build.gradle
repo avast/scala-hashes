@@ -21,6 +21,7 @@ nexusPublishing {
 subprojects {
     apply plugin: 'scala'
     apply plugin: 'java-library'
+    apply plugin: 'signing'
     apply plugin: 'maven-publish'
 
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -43,7 +44,6 @@ subprojects {
     }
 
     afterEvaluate {
-
         publishing {
             publications {
                 mavenJava(MavenPublication) {
