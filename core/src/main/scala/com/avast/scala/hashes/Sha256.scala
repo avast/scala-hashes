@@ -1,7 +1,5 @@
 package com.avast.scala.hashes
 
-import io.circe.{Decoder, Encoder}
-
 import java.util
 
 case class Sha256(bytes: Array[Byte]) {
@@ -21,7 +19,4 @@ case class Sha256(bytes: Array[Byte]) {
 object Sha256 {
   private val bytesLength = 32
   def apply(hexOrBase64: String): Sha256 = Sha256(tryHex2bytes(hexOrBase64, bytesLength).getOrElse(base642bytes(hexOrBase64)))
-
-  implicit lazy val Sha256Decoder: Decoder[Sha256] = circe.prepareDecoder(Sha256(_))
-  implicit lazy val Sha256Encoder: Encoder[Sha256] = Encoder.encodeString.contramap((s: Sha256) => s.toString)
 }

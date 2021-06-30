@@ -1,1 +1,3 @@
 rootProject.name = 'scala-hashes'
+
+include 'core', 'circe'
