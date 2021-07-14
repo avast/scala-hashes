@@ -17,4 +17,33 @@ class PackageTest extends AnyFlatSpec with Matchers {
     }
 
   }
+
+  Seq(
+    ("TRU", 3, None),
+    ("", 1, None),
+    (" TRU", 3, None),
+    (" ", 0, Some(Array.emptyByteArray)),
+    ("001991FF", 3, None),
+    ("001991FF", 5, None),
+    ("001991FF", 4, Some(Array(0, 25, 145, 255).map(_.toByte)))).foreach { case (input, expectedBytes, expectedResult) =>
+    it must s"return expected result from tryHex2bytes for input '$input' string and expecting $expectedBytes bytes" in {
+      tryHex2bytes(input, expectedBytes) match {
+        case Some(value) => value shouldBe expectedResult.get
+        case None => expectedResult shouldBe None
+      }
+    }
+  }
+
+  Seq(
+    ("001991FF", Array(0, 25, 145, 255).map(_.toByte)),
+    (" 001991FF ", Array(0, 25, 145, 255).map(_.toByte)),
+    ("uu001991FFuu", Array(0, 25, 145, 255).map(_.toByte)),
+    ("WFTF", Array(255).map(_.toByte)),
+    ("uuuu", Array.emptyByteArray),
+    ("", Array.emptyByteArray)).foreach { case (input, expectedResult) =>
+    it must s"return expected result from hex2bytes for input '$input' string" in {
+      hex2bytes(input) shouldBe expectedResult
+    }
+  }
+
 }

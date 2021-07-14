@@ -7,6 +7,10 @@ package object hashes {
 
   private val hexAllowedCharactersRegex = Pattern.compile("[^0-9A-Fa-f]")
 
+  /**
+   * Removes all the non-HEX characters from the input string and then transform the remaining HEX characters to byte array.
+   * So this method never throws an exception.
+   */
   def hex2bytes(hex: String): Array[Byte] = hex2bytesUnchecked(hexAllowedCharactersRegex.matcher(hex).replaceAll(""))
 
   private def hex2bytesUnchecked(hex: String): Array[Byte] = {
@@ -19,19 +23,25 @@ package object hashes {
     r
   }
 
-  def hexCharToInt(c: Character): Int = c match {
+  private def hexCharToInt(c: Character): Int = c match {
     case c if c >= '0' && c <= '9' => c - '0'
     case c if c >= 'a' && c <= 'f' => 10 + (c - 'a')
     case c if c >= 'A' && c <= 'F' => 10 + (c - 'A')
     case _                         => throw new IllegalArgumentException
   }
 
+  /**
+   * Removes all the non-HEX characters from the input string and then performs the check if the remaining characters
+   * could be decoded to expected bytes. If so, decodes them, returns None otherwise.
+   */
   def tryHex2bytes(maybeHex: String, expectedBytes: Int): Option[Array[Byte]] = {
     val clean = hexAllowedCharactersRegex.matcher(maybeHex).replaceAll("")
     if (clean.length == 2 * expectedBytes) Some(hex2bytesUnchecked(clean)) else None
   }
 
-
+  /**
+   * Encodes bytes to lower-case HEX string, optionally with a separator between bytes (so between every two characters).
+   */
   def bytes2hex(bytes: Array[Byte], sep: Option[String] = None): String =
     sep match {
       case None =>
