@@ -44,7 +44,7 @@ package object hashes {
           byteToHexChars(b, sb)
           sb.append(s)
         }
-        if (sb.isEmpty) "" else sb.substring(0, sb.length() - s.length)
+        if (sb.isEmpty) "" else sb.substring(0, sb.length - s.length)
     }
 
   private val hexAlphabet = Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f')
