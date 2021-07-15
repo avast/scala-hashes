@@ -22,7 +22,6 @@ class PackageTest extends AnyFlatSpec with Matchers {
     ("TRU", 3, None),
     ("", 1, None),
     (" TRU", 3, None),
-    (" ", 0, Some(Array.emptyByteArray)),
     ("001991FF", 3, None),
     ("001991FF", 5, None),
     ("001991FF", 4, Some(Array(0, 25, 145, 255).map(_.toByte)))).foreach { case (input, expectedBytes, expectedResult) =>
@@ -36,10 +35,6 @@ class PackageTest extends AnyFlatSpec with Matchers {
 
   Seq(
     ("001991FF", Array(0, 25, 145, 255).map(_.toByte)),
-    (" 001991FF ", Array(0, 25, 145, 255).map(_.toByte)),
-    ("uu001991FFuu", Array(0, 25, 145, 255).map(_.toByte)),
-    ("WFTF", Array(255).map(_.toByte)),
-    ("uuuu", Array.emptyByteArray),
     ("", Array.emptyByteArray)).foreach { case (input, expectedResult) =>
     it must s"return expected result from hex2bytes for input '$input' string" in {
       hex2bytes(input) shouldBe expectedResult

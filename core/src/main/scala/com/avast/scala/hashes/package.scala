@@ -1,19 +1,21 @@
 package com.avast.scala
 
 import java.util.Base64
-import java.util.regex.Pattern
 
 package object hashes {
 
-  private val hexAllowedCharactersRegex = Pattern.compile("[^0-9A-Fa-f]")
+  /**
+   * Performs a check if the input string has the right count of characters to be a valid HEX string for expectedBytes bytes.
+   * If so, decodes them, returns None otherwise.
+   */
+  def tryHex2bytes(maybeHex: String, expectedBytes: Int): Option[Array[Byte]] = {
+    if (maybeHex.length == 2 * expectedBytes) Some(hex2bytes(maybeHex)) else None
+  }
 
   /**
-   * Removes all the non-HEX characters from the input string and then transform the remaining HEX characters to byte array.
-   * So this method never throws an exception.
+   * Transform the input string to a new byte array, supposing all the characters as valid HEX characters (both lower and upper case are accepted).
    */
-  def hex2bytes(hex: String): Array[Byte] = hex2bytesUnchecked(hexAllowedCharactersRegex.matcher(hex).replaceAll(""))
-
-  private def hex2bytesUnchecked(hex: String): Array[Byte] = {
+  def hex2bytes(hex: String): Array[Byte] = {
     val r = new Array[Byte](hex.length / 2)
     var i = 0
     while (i < (hex.length / 2)) {
@@ -28,15 +30,6 @@ package object hashes {
     case c if c >= 'a' && c <= 'f' => 10 + (c - 'a')
     case c if c >= 'A' && c <= 'F' => 10 + (c - 'A')
     case _                         => throw new IllegalArgumentException
-  }
-
-  /**
-   * Removes all the non-HEX characters from the input string and then performs the check if the remaining characters
-   * could be decoded to expected bytes. If so, decodes them, returns None otherwise.
-   */
-  def tryHex2bytes(maybeHex: String, expectedBytes: Int): Option[Array[Byte]] = {
-    val clean = hexAllowedCharactersRegex.matcher(maybeHex).replaceAll("")
-    if (clean.length == 2 * expectedBytes) Some(hex2bytesUnchecked(clean)) else None
   }
 
   /**
