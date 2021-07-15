@@ -19,8 +19,8 @@ class Sha256Test extends AnyFlatSpec with Matchers {
     Sha256("6A18B3C45107538DE9D430F83A6AF988EDBDDEB4E5A6BDB16F223A2FA37EE446").toString() shouldBe "6a18b3c45107538de9d430f83a6af988edbddeb4e5a6bdb16f223a2fa37ee446"
   }
 
-  it should "convert hex value with additional characters" in {
-    Sha256("\"6A18B3C45107538DE9D430F83A6AF988EDBDDEB4E5A6BDB16F223A2FA37EE446 \"").toString() shouldBe "6a18b3c45107538de9d430f83a6af988edbddeb4e5a6bdb16f223a2fa37ee446"
+  it should "parse from base64" in {
+    Sha256("ahizxFEHU43p1DD4Omr5iO293rTlpr2xbyI6L6N+5EY=").toHexString shouldBe "6a18b3c45107538de9d430f83a6af988edbddeb4e5a6bdb16f223a2fa37ee446"
   }
 
   it should "generate base64 of the same length for random SHA256" in {
