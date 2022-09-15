@@ -9,7 +9,7 @@ allprojects {
 }
 
 ext {
-    circeVersion = '0.14.2'
+    circeVersion = '0.14.3'
 }
 
 nexusPublishing {
