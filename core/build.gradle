@@ -1,1 +1,3 @@
-archivesBaseName = "scala-hashes_$scalaVersion"
+tasks.jar.configure {
+    archiveBaseName.set("scala-hashes_$scalaVersion")
+}
