@@ -24,7 +24,7 @@ jobs:
       - name: Check with Gradle
         run: ./gradlew check --info -PscalaVersion=${{ matrix.scalaVersion }} -PscalaLibraryVersion=${{ matrix.scalaLibraryVersion }} -Pversion=${{ github.event.release.tag_name }}
       - name: Publish with Gradle to Maven Central
-        run: ./gradlew publish jreleaserDeploy closeAndReleaseSonatypeStagingRepository --info -Pversion=${{ github.event.release.tag_name }} -PscalaVersion=${{ matrix.scalaVersion }} -PscalaLibraryVersion=${{ matrix.scalaLibraryVersion }}
+        run: ./gradlew publish jreleaserDeploy --info -Pversion=${{ github.event.release.tag_name }} -PscalaVersion=${{ matrix.scalaVersion }} -PscalaLibraryVersion=${{ matrix.scalaLibraryVersion }}
         env:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PUBLIC_KEY: ${{ secrets.SIGNING_PUBLIC_KEY }}
