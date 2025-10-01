@@ -1,5 +1,4 @@
 plugins {
-    id 'signing'
     id 'org.jreleaser' version '1.20.0'
 }
 
@@ -12,13 +11,13 @@ ext {
     circeVersion = '0.14.15'
 }
 
+tasks.register('clean') {}
 
 subprojects {
     apply plugin: 'scala'
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
     apply plugin: 'org.jreleaser'
-
 
     repositories {
         mavenCentral()
