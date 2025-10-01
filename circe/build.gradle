@@ -1,4 +1,6 @@
-archivesBaseName = "scala-hashes-circe_$scalaVersion"
+tasks.jar.configure {
+    archiveBaseName.set("scala-hashes-circe_$scalaVersion")
+}
 
 dependencies {
     api project(':core')
